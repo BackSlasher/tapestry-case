@@ -17,7 +17,7 @@ The ribbon is connecting on one of the wide sides (97mm), 7mm from the corner.
 # Eink
 There is a dimension of the eink including the non-active part:
 Width: 220mm
-Height: 196mm
+Height: 158mm
 
 The active part:
 12mm from the left of the non-active part

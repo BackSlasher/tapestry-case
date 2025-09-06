@@ -3,7 +3,11 @@
 
 // E-ink screen dimensions
 eink_width = 220;
-eink_height = 196;
+eink_height = 158;
+
+// Calculate case dimensions to accommodate screen size
+case_width = eink_width + 2 * 6;  // 220 + 12 = 232mm  
+case_height = eink_height + 4;    // 158 + 4 = 162mm
 eink_thickness = 2;
 
 // PCB dimensions
@@ -26,8 +30,8 @@ groove_width = eink_thickness + 0.5;
 case_thickness = 8; // Total thickness for back-to-back mounting
 
 module complete_case() {
-    pcb_offset_x = (eink_width - pcb_width) / 2;
-    pcb_offset_y = (eink_height - pcb_height) / 2;
+    pcb_offset_x = (case_width - pcb_width) / 2;
+    pcb_offset_y = (case_height - pcb_height) / 2;
     tendril_width = 10;
     
     difference() {
@@ -50,14 +54,14 @@ module complete_case() {
             
             // E-ink arms extending from front face
             // Left arm
-            cube([arm_thickness, eink_height, case_thickness + arm_length]);
+            cube([arm_thickness, case_height, case_thickness + arm_length]);
             
             // Right arm
-            translate([eink_width - arm_thickness, 0, 0])
-            cube([arm_thickness, eink_height, case_thickness + arm_length]);
+            translate([case_width - arm_thickness, 0, 0])
+            cube([arm_thickness, case_height, case_thickness + arm_length]);
             
             // Bottom arm
-            cube([eink_width, 4, case_thickness + arm_length]);
+            cube([case_width, 4, case_thickness + arm_length]);
             
             // Tendrils connecting PCB area to e-ink arms
             pcb_left = pcb_offset_x + min_x;
@@ -65,30 +69,30 @@ module complete_case() {
             pcb_bottom = pcb_offset_y + min_y;
             
             // Tendril to left arm
-            translate([0, (eink_height - tendril_width) / 2, 0])
+            translate([0, (case_height - tendril_width) / 2, 0])
             cube([pcb_left, tendril_width, case_thickness]);
             
             // Tendril to right arm  
-            translate([pcb_right, (eink_height - tendril_width) / 2, 0])
-            cube([eink_width - arm_thickness - pcb_right, tendril_width, case_thickness]);
+            translate([pcb_right, (case_height - tendril_width) / 2, 0])
+            cube([case_width - arm_thickness - pcb_right, tendril_width, case_thickness]);
             
             // Tendril to bottom arm
-            translate([(eink_width - tendril_width) / 2, 0, 0])
+            translate([(case_width - tendril_width) / 2, 0, 0])
             cube([tendril_width, pcb_bottom, case_thickness]);
         }
         
         // E-ink arm grooves (full height for screen insertion)
         // Left groove (inside face of left arm)
-        translate([arm_thickness - groove_depth, 0, case_thickness + (arm_length - groove_width) / 2])
-            cube([groove_depth, eink_height, groove_width]);
+        translate([arm_thickness - groove_depth, 4, case_thickness + (arm_length - groove_width) / 2])
+            cube([groove_depth, case_height - 4, groove_width]);
         
         // Right groove (inside face of right arm) 
-        translate([eink_width - arm_thickness, 0, case_thickness + (arm_length - groove_width) / 2])
-            cube([groove_depth, eink_height, groove_width]);
+        translate([case_width - arm_thickness, 4, case_thickness + (arm_length - groove_width) / 2])
+            cube([groove_depth, case_height - 4, groove_width]);
         
         // Bottom groove (inside face of bottom arm)
-        translate([0, 4 - groove_depth, case_thickness + (arm_length - groove_width) / 2])
-            cube([eink_width, groove_depth, groove_width]);
+        translate([arm_thickness, 4 - groove_depth, case_thickness + (arm_length - groove_width) / 2])
+            cube([case_width - 2*arm_thickness, groove_depth, groove_width]);
         
         // PCB mounting holes through standoffs
         for (hole = mounting_holes) {
