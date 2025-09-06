@@ -23,17 +23,17 @@ pcb_ribbon_height = 20;
 pcb_ribbon_offset_x = 20; // from left of thicker ribbon
 
 // Holder parameters
-arm_thickness = 10;
-arm_length = 15;
-groove_depth = 3;
+arm_thickness = 6; // Reduced from 10
+arm_length = 10; // Reduced from 15
+groove_depth = 2; // Reduced from 3
 groove_width = eink_thickness + 0.5; // Screen thickness + clearance
-wall_height = 2; // Height of groove walls
+wall_height = 1.5; // Reduced from 2
 
 module eink_holder() {
     // Parameters for minimized back structure
-    back_thickness = 3;
-    center_size = 80; // Central mounting area
-    tendril_width = 15; // Width of connecting tendrils
+    back_thickness = 2; // Reduced from 3
+    center_size = 60; // Reduced from 80
+    tendril_width = 10; // Reduced from 15
     
     // Central back plate (for PCB mounting)
     translate([(eink_width - center_size) / 2, (eink_height - center_size) / 2, 0])
@@ -67,7 +67,7 @@ module eink_holder() {
     }
     
     // Bottom arm with groove (thinner than sides)
-    bottom_arm_thickness = 5; // Thinner bottom arm
+    bottom_arm_thickness = 4; // Reduced from 5
     difference() {
         cube([eink_width, bottom_arm_thickness, arm_length]);
         translate([0, bottom_arm_thickness - groove_depth, (arm_length - groove_width) / 2])
