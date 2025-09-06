@@ -42,3 +42,32 @@ I want you to create a case to hold both components, so that the pcb is on the b
 The pcb will be mounted using screws, with the mounting holes as above.
 The screen will be slided into place from the top, as there are no mounting holes
 Screen and pcb holder will be positioned so that the ribbon connecting the two will easily reach both.
+
+## Design Implementation Notes
+
+### E-ink Holder Design
+The e-ink holder should use a minimal arm design:
+- **Three arms**: Left (6mm thick), right (6mm thick), and bottom (4mm thick)
+- **Arm length**: 10mm extending from the screen edge
+- **Groove system**: Each arm has a centered groove (2mm deep) with 1.5mm walls on each side to securely hold the screen edges
+- **No window**: The active area should be fully exposed (no covering window)
+- **Back structure**: Central mounting area (60×60mm) connected to arms via thin tendrils (10mm wide)
+- **Thickness**: 2mm for back plate and tendrils
+- **Screen thickness**: Assume 2mm + 0.5mm clearance
+
+### PCB Holder Design  
+- **Mounting**: Use the specified hole positions exactly as given in instructions
+- **No walls**: PCB holder is a flat mounting plate only
+- **Ribbon cutout**: 20×10mm opening at 7mm from corner on 97mm side
+- **Standoffs**: 5mm high with M3 screw holes and countersink for screw heads
+
+### Build System
+- Use OpenSCAD for 3D modeling
+- Include Makefile for automatic STL generation
+- Separate files: `eink_holder.scad`, `pcb_holder.scad`, `complete_case.scad`
+
+### Key Lessons Learned
+- KiCad PCB file may be incomplete - use the mounting hole specifications from instructions
+- Ensure tendril connections are properly calculated to connect center to arms
+- Groove positioning should be centered in arms, not at bottom or top
+- Minimal material usage while maintaining structural integrity
