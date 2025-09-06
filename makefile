@@ -17,10 +17,14 @@ complete_case.stl: complete_case.scad parameters.scad eink_holder.scad pcb_holde
 clean:
 	rm -f *.stl
 
+# Clean PNG render files
+clean-png:
+	rm -f *.png
+
 # Individual targets for convenience
 eink: eink_holder.stl
 pcb: pcb_holder.stl  
 complete: complete_case.stl
 
 # Force rebuild
-.PHONY: all clean eink pcb complete
+.PHONY: all clean clean-png eink pcb complete
