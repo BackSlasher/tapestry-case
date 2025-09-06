@@ -1,15 +1,26 @@
 # Makefile for epdiy case STL generation
 
-# Default target
-all: eink_holder.stl
+# Default target - build all STLs
+all: eink_holder.stl pcb_holder.stl complete_case.stl
 
-# Generate STL from SCAD file
+# Generate STL files from SCAD files
 eink_holder.stl: eink_holder.scad
+	openscad --render --export-format=stl -o $@ $<
+
+pcb_holder.stl: pcb_holder.scad
+	openscad --render --export-format=stl -o $@ $<
+
+complete_case.stl: complete_case.scad
 	openscad --render --export-format=stl -o $@ $<
 
 # Clean generated files
 clean:
 	rm -f *.stl
 
+# Individual targets for convenience
+eink: eink_holder.stl
+pcb: pcb_holder.stl  
+complete: complete_case.stl
+
 # Force rebuild
-.PHONY: all clean
+.PHONY: all clean eink pcb complete
