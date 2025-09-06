@@ -3,14 +3,14 @@
 # Default target - build all STLs
 all: eink_holder.stl pcb_holder.stl complete_case.stl
 
-# Generate STL files from SCAD files
-eink_holder.stl: eink_holder.scad
+# Generate STL files from SCAD files (with parameter dependencies)
+eink_holder.stl: eink_holder.scad parameters.scad
 	openscad --render --export-format=stl -o $@ $<
 
-pcb_holder.stl: pcb_holder.scad
+pcb_holder.stl: pcb_holder.scad parameters.scad
 	openscad --render --export-format=stl -o $@ $<
 
-complete_case.stl: complete_case.scad
+complete_case.stl: complete_case.scad parameters.scad eink_holder.scad pcb_holder.scad
 	openscad --render --export-format=stl -o $@ $<
 
 # Clean generated files
