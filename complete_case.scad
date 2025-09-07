@@ -42,12 +42,12 @@ module complete_case() {
             // E-ink discrete mount points (60mm each)
             mount_point_length = 60;
             
-            // Left mount point - at full case edge like eink_holder
-            translate([0, screen_offset_y + (eink_height - mount_point_length) / 2, 0])
+            // Left mount point - at full case edge, centered on left tendril
+            translate([0, (pcb_top + pcb_bottom - mount_point_length) / 2, 0])
             cube([arm_thickness, mount_point_length, case_thickness + arm_length]);
             
-            // Right mount point - at full case edge like eink_holder  
-            translate([case_width - arm_thickness, screen_offset_y + (eink_height - mount_point_length) / 2, 0])
+            // Right mount point - at full case edge, centered on right tendril  
+            translate([case_width - arm_thickness, (pcb_top + pcb_bottom - mount_point_length) / 2, 0])
             cube([arm_thickness, mount_point_length, case_thickness + arm_length]);
             
             // Bottom mount point - at bottom edge of case, full height from ground
@@ -55,12 +55,12 @@ module complete_case() {
             cube([mount_point_length, bottom_arm_thickness, case_thickness + arm_length]);
             
             // Connecting tendrils from PCB area to e-ink arms
-            // Left tendril - from PCB to left arm
-            translate([screen_offset_x, (screen_offset_y + screen_offset_y + eink_height - tendril_width) / 2, 0])
+            // Left tendril - from center of PCB to left arm
+            translate([screen_offset_x, (pcb_top + pcb_bottom - tendril_width) / 2, 0])
             cube([pcb_left - screen_offset_x, tendril_width, case_thickness]);
             
-            // Right tendril - from PCB to right arm  
-            translate([pcb_right, (screen_offset_y + screen_offset_y + eink_height - tendril_width) / 2, 0])
+            // Right tendril - from center of PCB to right arm  
+            translate([pcb_right, (pcb_top + pcb_bottom - tendril_width) / 2, 0])
             cube([screen_offset_x + eink_width - pcb_right, tendril_width, case_thickness]);
             
             // Bottom tendril - from PCB area down to bottom mount point
@@ -77,12 +77,12 @@ module complete_case() {
         mount_point_length = 60;
         
         // Left groove - in left mount point (positioned to match eink_holder screen depth)
-        translate([arm_thickness - groove_depth, screen_offset_y + (eink_height - mount_point_length) / 2, 
+        translate([arm_thickness - groove_depth, (pcb_top + pcb_bottom - mount_point_length) / 2, 
                   case_thickness])
             cube([groove_depth, mount_point_length, groove_width]);
         
         // Right groove - in right mount point (positioned to match eink_holder screen depth)
-        translate([case_width - arm_thickness, screen_offset_y + (eink_height - mount_point_length) / 2,
+        translate([case_width - arm_thickness, (pcb_top + pcb_bottom - mount_point_length) / 2,
                   case_thickness])
             cube([groove_depth, mount_point_length, groove_width]);
         
