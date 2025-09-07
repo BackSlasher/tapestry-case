@@ -54,13 +54,18 @@ tendril_width = 10;
 
 // PCB holder parameters
 screw_hole_diameter = 2.4; // M2 screws (2mm + clearance)
-screw_head_diameter = 4;   // M2 countersunk head diameter  
-screw_head_depth = 1.5;    // M2 countersunk depth
+screw_head_diameter = 4;   // M2 round head diameter  
+screw_head_height = 1.4;   // M2 round head height (above surface)
 standoff_height = 5;
 
 // M2 nut parameters  
 nut_diameter = 4.4;  // M2 hex nut width across flats (4mm + tolerance)
 nut_thickness = 1.6; // M2 nut thickness
+
+// Temporary assembly option (while waiting for screws)
+use_temporary_pins = true;  // Set to false for screw holes, true for temporary pins
+pin_diameter = 2.0;         // Pin diameter (fits through 2.2mm PCB holes)  
+pin_height = 3;             // Pin height above standoff
 
 // Calculate PCB holder dimensions to encompass all mounting holes
 min_hole_x = min([for (hole = mounting_holes) hole[0]]) - 10;
