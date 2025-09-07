@@ -43,12 +43,12 @@ module complete_case() {
             // E-ink discrete mount points (60mm each)
             mount_point_length = 60;
             
-            // Left mount point - centered on left side, full height from ground
-            translate([screen_offset_x, screen_offset_y + (eink_height - mount_point_length) / 2, 0])
+            // Left mount point - at full case edge like eink_holder
+            translate([0, screen_offset_y + (eink_height - mount_point_length) / 2, 0])
             cube([arm_thickness, mount_point_length, case_thickness + arm_length]);
             
-            // Right mount point - centered on right side, full height from ground
-            translate([screen_offset_x + eink_width - arm_thickness, screen_offset_y + (eink_height - mount_point_length) / 2, 0])
+            // Right mount point - at full case edge like eink_holder  
+            translate([case_width - arm_thickness, screen_offset_y + (eink_height - mount_point_length) / 2, 0])
             cube([arm_thickness, mount_point_length, case_thickness + arm_length]);
             
             // Bottom mount point - centered on tendril position, full height from ground
@@ -76,19 +76,19 @@ module complete_case() {
         // Grooves for discrete mount points
         mount_point_length = 60;
         
-        // Left groove - in left mount point
-        translate([screen_offset_x + arm_thickness - groove_depth, screen_offset_y + (eink_height - mount_point_length) / 2, 
-                  case_thickness + (arm_length - groove_width) / 2])
+        // Left groove - in left mount point (positioned to match eink_holder screen depth)
+        translate([arm_thickness - groove_depth, screen_offset_y + (eink_height - mount_point_length) / 2, 
+                  case_thickness])
             cube([groove_depth, mount_point_length, groove_width]);
         
-        // Right groove - in right mount point
-        translate([screen_offset_x + eink_width - arm_thickness, screen_offset_y + (eink_height - mount_point_length) / 2,
-                  case_thickness + (arm_length - groove_width) / 2])
+        // Right groove - in right mount point (positioned to match eink_holder screen depth)
+        translate([case_width - arm_thickness, screen_offset_y + (eink_height - mount_point_length) / 2,
+                  case_thickness])
             cube([groove_depth, mount_point_length, groove_width]);
         
-        // Bottom groove - in bottom mount point (centered on tendril)
+        // Bottom groove - in bottom mount point (positioned to match eink_holder screen depth)
         translate([(pcb_left + pcb_right - mount_point_length) / 2, screen_offset_y + bottom_arm_thickness - groove_depth,
-                  case_thickness + (arm_length - groove_width) / 2])
+                  case_thickness])
             cube([mount_point_length, groove_depth, groove_width]);
         
         // PCB mounting: pins or holes based on parameter
