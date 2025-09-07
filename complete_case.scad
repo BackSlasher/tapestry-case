@@ -83,13 +83,22 @@ module complete_case() {
                   case_thickness + (arm_length - groove_width) / 2])
             cube([mount_point_length, groove_depth, groove_width]);
         
-        // PCB mounting holes
+        // PCB mounting holes (screw clearance)
         for (hole = mounting_holes) {
             translate([pcb_offset_x + hole[0], pcb_offset_y + hole[1], -1])
-                cylinder(h = case_thickness + 2, d = screw_hole_diameter);
-                
+                cylinder(h = case_thickness + arm_length + 2, d = screw_hole_diameter);
+        }
+        
+        // Screw head countersinks (from bottom)
+        for (hole = mounting_holes) {
             translate([pcb_offset_x + hole[0], pcb_offset_y + hole[1], -1])
                 cylinder(h = screw_head_depth + 1, d = screw_head_diameter);
+        }
+        
+        // Nut traps (from top of standoffs)
+        for (hole = mounting_holes) {
+            translate([pcb_offset_x + hole[0], pcb_offset_y + hole[1], case_thickness - nut_thickness])
+                cylinder(h = nut_thickness + 1, d = nut_diameter, $fn=6); // Hexagonal nut trap
         }
     }
 }

@@ -32,10 +32,18 @@ module pcb_holder() {
         for (hole = mounting_holes) {
             translate([3 + hole[0] - min_hole_x, 3 + hole[1] - min_hole_y, -1])
                 cylinder(h = 3 + standoff_height + 2, d = screw_hole_diameter);
-            
-            // Countersink for screw heads (from bottom)
+        }
+        
+        // Countersink for screw heads (from bottom)
+        for (hole = mounting_holes) {
             translate([3 + hole[0] - min_hole_x, 3 + hole[1] - min_hole_y, -1])
                 cylinder(h = screw_head_depth + 1, d = screw_head_diameter);
+        }
+        
+        // Nut traps (from top of standoffs)
+        for (hole = mounting_holes) {
+            translate([3 + hole[0] - min_hole_x, 3 + hole[1] - min_hole_y, 3 + standoff_height - nut_thickness])
+                cylinder(h = nut_thickness + 1, d = nut_diameter, $fn=6); // Hexagonal nut trap
         }
     }
 }

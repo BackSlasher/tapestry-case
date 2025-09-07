@@ -58,6 +58,10 @@ screw_head_diameter = 6;
 screw_head_depth = 2;
 standoff_height = 5;
 
+// M3 nut parameters  
+nut_diameter = 6.4;  // M3 hex nut width across flats (6mm + tolerance)
+nut_thickness = 2.5; // M3 nut thickness
+
 // Calculate PCB holder dimensions to encompass all mounting holes
 min_hole_x = min([for (hole = mounting_holes) hole[0]]) - 10;
 max_hole_x = max([for (hole = mounting_holes) hole[0]]) + 10;
