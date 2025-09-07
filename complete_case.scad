@@ -8,9 +8,8 @@ module complete_case() {
     screen_offset_x = (case_width - eink_width) / 2;
     screen_offset_y = (case_height - eink_height) / 2;
     
-    // PCB positioned back-to-back with screen (directly behind it)
-    // Center PCB within the screen area for back-to-back mounting
-    pcb_offset_x = screen_offset_x + (eink_width - pcb_width) / 2;
+    // PCB positioned back-to-back with screen (positioned on left side)
+    pcb_offset_x = screen_offset_x;
     pcb_offset_y = screen_offset_y + (eink_height - pcb_height) / 2;
     
     // PCB mounting area bounds (defined once for use throughout)
