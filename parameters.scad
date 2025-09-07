@@ -2,8 +2,8 @@
 // Single source of truth for all dimensions and design parameters
 
 // E-ink screen dimensions (non-active part)
-eink_width = 220;
-eink_height = 158;
+eink_width = 217;
+eink_height = 156;
 eink_thickness = 2; // Assumed thickness
 
 // Active part dimensions
@@ -44,8 +44,8 @@ wall_height = 1.5;
 bottom_arm_thickness = 4;
 
 // Calculate case dimensions to accommodate screen size
-case_width = eink_width + 2 * arm_thickness;  // 220 + 12 = 232mm
-case_height = eink_height + bottom_arm_thickness; // 158 + 4 = 162mm
+case_width = eink_width + 2 * arm_thickness;  // 217 + 12 = 229mm
+case_height = eink_height + bottom_arm_thickness; // 156 + 4 = 160mm
 
 // Back structure parameters for e-ink holder
 back_thickness = 2;
