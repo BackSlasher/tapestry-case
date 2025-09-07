@@ -35,15 +35,15 @@ module complete_case() {
             // E-ink discrete mount points (60mm each)
             mount_point_length = 60;
             
-            // Left mount point - centered on left side
+            // Left mount point - centered on left side, full height from ground
             translate([screen_offset_x, screen_offset_y + (eink_height - mount_point_length) / 2, 0])
             cube([arm_thickness, mount_point_length, case_thickness + arm_length]);
             
-            // Right mount point - centered on right side
+            // Right mount point - centered on right side, full height from ground
             translate([screen_offset_x + eink_width - arm_thickness, screen_offset_y + (eink_height - mount_point_length) / 2, 0])
             cube([arm_thickness, mount_point_length, case_thickness + arm_length]);
             
-            // Bottom mount point - centered on tendril position
+            // Bottom mount point - centered on tendril position, full height from ground
             translate([(pcb_left + pcb_right - mount_point_length) / 2, screen_offset_y, 0])
             cube([mount_point_length, bottom_arm_thickness, case_thickness + arm_length]);
             

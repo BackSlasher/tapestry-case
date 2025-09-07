@@ -7,27 +7,29 @@ include <parameters.scad>
 module eink_arms() {
     mount_point_length = 60; // Length of each discrete mount point
     
+    total_arm_height = back_thickness + arm_length; // 2 + 10 = 12mm total
+    
     // Left mount point with groove (centered on left side)
     translate([0, (case_height - mount_point_length) / 2, 0])
     difference() {
-        cube([arm_thickness, mount_point_length, arm_length]);
-        translate([arm_thickness - groove_depth, 0, (arm_length - groove_width) / 2])
+        cube([arm_thickness, mount_point_length, total_arm_height]);
+        translate([arm_thickness - groove_depth, 0, back_thickness + (arm_length - groove_width) / 2])
             cube([groove_depth, mount_point_length, groove_width]);
     }
     
     // Right mount point with groove (centered on right side)
     translate([case_width - arm_thickness, (case_height - mount_point_length) / 2, 0])
     difference() {
-        cube([arm_thickness, mount_point_length, arm_length]);
-        translate([0, 0, (arm_length - groove_width) / 2])
+        cube([arm_thickness, mount_point_length, total_arm_height]);
+        translate([0, 0, back_thickness + (arm_length - groove_width) / 2])
             cube([groove_depth, mount_point_length, groove_width]);
     }
     
     // Bottom mount point with groove (positioned at bottom edge where tendril connects)
     translate([(case_width - mount_point_length) / 2, 0, 0])
     difference() {
-        cube([mount_point_length, bottom_arm_thickness, arm_length]);
-        translate([0, bottom_arm_thickness - groove_depth, (arm_length - groove_width) / 2])
+        cube([mount_point_length, bottom_arm_thickness, total_arm_height]);
+        translate([0, bottom_arm_thickness - groove_depth, back_thickness + (arm_length - groove_width) / 2])
             cube([mount_point_length, groove_depth, groove_width]);
     }
 }
@@ -50,8 +52,7 @@ module eink_holder() {
     translate([(case_width - tendril_width) / 2, 0, 0])
         cube([tendril_width, (case_height - center_size) / 2 + center_size / 2, back_thickness]);
     
-    // Add the arms
-    translate([0, 0, back_thickness])
+    // Add the arms starting from ground level (z=0)
     eink_arms();
 }
 
