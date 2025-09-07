@@ -3,28 +3,32 @@
 
 include <parameters.scad>
 
-// Just the e-ink arms with grooves (no back structure)
+// Discrete mount points instead of continuous arms (material saving design)
 module eink_arms() {
-    // Left arm with groove
+    mount_point_length = 60; // Length of each discrete mount point
+    
+    // Left mount point with groove (centered on left side)
+    translate([0, (case_height - mount_point_length) / 2, 0])
     difference() {
-        cube([arm_thickness, case_height, arm_length]);
-        translate([arm_thickness - groove_depth, bottom_arm_thickness, (arm_length - groove_width) / 2])
-            cube([groove_depth, case_height - bottom_arm_thickness, groove_width]);
+        cube([arm_thickness, mount_point_length, arm_length]);
+        translate([arm_thickness - groove_depth, 0, (arm_length - groove_width) / 2])
+            cube([groove_depth, mount_point_length, groove_width]);
     }
     
-    // Right arm with groove  
-    translate([case_width - arm_thickness, 0, 0])
+    // Right mount point with groove (centered on right side)
+    translate([case_width - arm_thickness, (case_height - mount_point_length) / 2, 0])
     difference() {
-        cube([arm_thickness, case_height, arm_length]);
-        translate([0, bottom_arm_thickness, (arm_length - groove_width) / 2])
-            cube([groove_depth, case_height - bottom_arm_thickness, groove_width]);
+        cube([arm_thickness, mount_point_length, arm_length]);
+        translate([0, 0, (arm_length - groove_width) / 2])
+            cube([groove_depth, mount_point_length, groove_width]);
     }
     
-    // Bottom arm with groove (thinner than sides)
+    // Bottom mount point with groove (positioned at bottom edge where tendril connects)
+    translate([(case_width - mount_point_length) / 2, 0, 0])
     difference() {
-        cube([case_width, bottom_arm_thickness, arm_length]);
-        translate([arm_thickness, bottom_arm_thickness - groove_depth, (arm_length - groove_width) / 2])
-            cube([case_width - 2*arm_thickness, groove_depth, groove_width]);
+        cube([mount_point_length, bottom_arm_thickness, arm_length]);
+        translate([0, bottom_arm_thickness - groove_depth, (arm_length - groove_width) / 2])
+            cube([mount_point_length, groove_depth, groove_width]);
     }
 }
 
