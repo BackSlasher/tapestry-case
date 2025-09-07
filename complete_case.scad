@@ -10,7 +10,7 @@ module complete_case() {
     
     // PCB positioned back-to-back with screen (positioned on left side)
     pcb_offset_x = screen_offset_x;
-    pcb_offset_y = screen_offset_y + (eink_height - pcb_height) / 2;
+    pcb_offset_y = screen_offset_y + (eink_height - pcb_height) / 2 + 15;
     
     // PCB mounting area bounds (defined once for use throughout)
     pcb_left = pcb_offset_x + min([for (hole = mounting_holes) hole[0]]) - 8;
@@ -50,8 +50,8 @@ module complete_case() {
             translate([case_width - arm_thickness, screen_offset_y + (eink_height - mount_point_length) / 2, 0])
             cube([arm_thickness, mount_point_length, case_thickness + arm_length]);
             
-            // Bottom mount point - centered on tendril position, full height from ground
-            translate([(pcb_left + pcb_right - mount_point_length) / 2, screen_offset_y, 0])
+            // Bottom mount point - at bottom edge of case, full height from ground
+            translate([(pcb_left + pcb_right - mount_point_length) / 2, 0, 0])
             cube([mount_point_length, bottom_arm_thickness, case_thickness + arm_length]);
             
             // Connecting tendrils from PCB area to e-ink arms
@@ -63,9 +63,10 @@ module complete_case() {
             translate([pcb_right, (screen_offset_y + screen_offset_y + eink_height - tendril_width) / 2, 0])
             cube([screen_offset_x + eink_width - pcb_right, tendril_width, case_thickness]);
             
-            // Top tendril - from PCB to top arm
-            translate([(pcb_left + pcb_right - tendril_width) / 2, screen_offset_y, 0])
-            cube([tendril_width, pcb_bottom - screen_offset_y, case_thickness]);
+            // Bottom tendril - from PCB area down to bottom mount point
+            translate([(pcb_left + pcb_right - tendril_width) / 2, bottom_arm_thickness, 0])
+            cube([tendril_width, pcb_bottom - bottom_arm_thickness, case_thickness]);
+            
         }
         
         // E-ink screen grooves at the proper height
@@ -86,7 +87,7 @@ module complete_case() {
             cube([groove_depth, mount_point_length, groove_width]);
         
         // Bottom groove - in bottom mount point (positioned to match eink_holder screen depth)
-        translate([(pcb_left + pcb_right - mount_point_length) / 2, screen_offset_y + bottom_arm_thickness - groove_depth,
+        translate([(pcb_left + pcb_right - mount_point_length) / 2, bottom_arm_thickness - groove_depth,
                   case_thickness])
             cube([mount_point_length, groove_depth, groove_width]);
         
