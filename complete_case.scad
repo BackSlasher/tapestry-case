@@ -67,6 +67,14 @@ module complete_case() {
             translate([(pcb_left + pcb_right - tendril_width) / 2, bottom_arm_thickness, 0])
             cube([tendril_width, pcb_bottom - bottom_arm_thickness, case_thickness]);
             
+            // Ribbon fold guide - extends 2.5cm from top of PCB, 4cm wide, half thickness
+            ribbon_guide_width = 40;  // 4cm
+            ribbon_guide_length = 25; // 2.5cm
+            ribbon_guide_thickness = case_thickness / 2; // Half the case thickness
+            
+            translate([(pcb_left + pcb_right - ribbon_guide_width) / 2, pcb_top, 0])
+            cube([ribbon_guide_width, ribbon_guide_length, ribbon_guide_thickness]);
+            
         }
         
         // E-ink screen grooves at the proper height
