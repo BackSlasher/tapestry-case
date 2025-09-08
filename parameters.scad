@@ -2,7 +2,7 @@
 // Single source of truth for all dimensions and design parameters
 
 // E-ink screen dimensions (non-active part)
-eink_width = 217;
+eink_width = 216;
 eink_height = 156;
 eink_thickness = 2; // Assumed thickness
 
