@@ -75,6 +75,7 @@ module complete_case() {
             translate([(pcb_left + pcb_right - ribbon_guide_width) / 2, pcb_top, 0])
             cube([ribbon_guide_width, ribbon_guide_length, ribbon_guide_thickness]);
             
+            
         }
         
         // E-ink screen grooves at the proper height
@@ -121,6 +122,11 @@ module complete_case() {
                     cylinder(h = nut_thickness + 1, d = nut_diameter, $fn=6); // Hexagonal nut trap
             }
         }
+        
+        // "digink" text sunken into front face of case
+        translate([(pcb_left + pcb_right) / 2, (pcb_top + pcb_bottom) / 2, case_thickness - 0.4])
+        linear_extrude(height = 0.4 + 0.1)  // 0.4mm depth + extra for clean cut
+            text("digink", size = 6, halign = "center", valign = "center", font = "Liberation Mono");
     }
 }
 
