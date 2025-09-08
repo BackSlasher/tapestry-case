@@ -10,7 +10,7 @@ module complete_case() {
     
     // PCB positioned back-to-back with screen (positioned on left side, adjusted)
     pcb_offset_x = screen_offset_x + 5;  // Move 5mm toward center (right)
-    pcb_offset_y = screen_offset_y + (eink_height - pcb_height) / 2 + 15 - 5;  // Move 5mm toward bottom
+    pcb_offset_y = screen_offset_y + (eink_height - pcb_height) / 2 + 15 - 5 + 2;  // Move 5mm toward bottom + 2mm up
     
     // PCB mounting area bounds (defined once for use throughout)
     pcb_left = pcb_offset_x + min([for (hole = mounting_holes) hole[0]]) - 8;
