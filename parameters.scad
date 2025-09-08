@@ -63,7 +63,7 @@ nut_diameter = 4.4;  // M2 hex nut width across flats (4mm + tolerance)
 nut_thickness = 1.6; // M2 nut thickness
 
 // Temporary assembly option (while waiting for screws)
-use_temporary_pins = true;  // Set to false for screw holes, true for temporary pins
+use_temporary_pins = false;  // Set to false for screw holes, true for temporary pins
 pin_diameter = 2.0;         // Pin diameter (fits through 2.2mm PCB holes)  
 pin_height = 3;             // Pin height above standoff
 
