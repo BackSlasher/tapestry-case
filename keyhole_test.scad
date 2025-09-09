@@ -18,9 +18,9 @@ test_width = 60;
 test_height = 50;  // Increased height to provide more padding at top
 
 module keyhole() {
-    layer1_thickness = 3;  // Layer 1: Original keyhole (narrow slot + wide opening)
-    layer2_thickness = 3;  // Layer 2: Full pin head width opening  
-    layer3_thickness = 2;  // Layer 3: Solid material (pin stop)
+    layer1_thickness = 3.5;  // Layer 1: Original keyhole (narrow slot + wide opening) - extra clearance
+    layer2_thickness = 3.5;  // Layer 2: Full pin head width opening - extra clearance
+    layer3_thickness = 2;    // Layer 3: Solid material (pin stop)
     
     // Layer 1: Original keyhole design (top layer) - opening faces positive Z
     translate([0, 0, material_thickness/2]) {
