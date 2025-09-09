@@ -3,6 +3,51 @@
 
 include <parameters.scad>
 
+// Keyhole parameters (from keyhole_test.scad with updated thicknesses)
+pin_head_diameter = 19;
+pin_shaft_diameter = 8;
+clearance = 1;
+wide_opening = pin_head_diameter + clearance;   // 20mm
+narrow_slot = pin_shaft_diameter + clearance;   // 9mm
+slot_length = 15;
+
+// Updated layer thicknesses for better tolerance
+layer1_thickness = 3.5;  // Top layer with narrow slot + wide opening
+layer2_thickness = 3.5;  // Middle layer with full pin head width
+layer3_thickness = 2;    // Bottom solid layer (pin stop)
+keyhole_total_thickness = layer1_thickness + layer2_thickness + layer3_thickness; // 9mm
+
+module keyhole_mount() {
+    // Keyhole opening from the back side (bottom) of the case
+    // Layer 1: Only wide opening at bottom (for pin head insertion)
+    translate([0, 0, -0.1]) {
+        // Wide circular opening only (no narrow slot)
+        translate([0, -wide_opening/2 + 5, 0])
+            cylinder(h = layer1_thickness + 0.1, d = wide_opening, $fn = 40);
+    }
+    
+    // Layer 2: Full keyhole shape (wide opening + narrow slot)
+    translate([0, 0, layer1_thickness]) {
+        // Wide circular opening
+        translate([0, -wide_opening/2 + 5, 0])
+            cylinder(h = layer2_thickness + 0.1, d = wide_opening, $fn = 40);
+        
+        // Narrow slot extending upward
+        translate([0, slot_length/2 + 5, 0])
+            cube([narrow_slot, slot_length, layer2_thickness + 0.1], center = true);
+        
+        // Smooth transition between wide and narrow
+        hull() {
+            translate([0, -wide_opening/2 + 5, 0])
+                cylinder(h = layer2_thickness + 0.1, d = wide_opening, $fn = 40);
+            translate([0, 5, 0])
+                cube([narrow_slot, 1, layer2_thickness + 0.1], center = true);
+        }
+    }
+    
+    // Layer 3: Solid material (no openings) - provides pin stop surface
+}
+
 module complete_case() {
     // E-ink screen positioning (centered in case)
     screen_offset_x = (case_width - eink_width) / 2;
@@ -76,6 +121,20 @@ module complete_case() {
             translate([ribbon_guide_start_x, pcb_top, 0])
             cube([ribbon_guide_width, ribbon_guide_length, ribbon_guide_thickness]);
             
+            // Keyhole material extensions (add material around keyhole areas)
+            // Position keyholes exactly 200mm apart (5 × 4cm grid spacing)
+            keyhole_spacing = 200;  // Exact 4cm multiple
+            case_center_x = case_width / 2;  // Center of case
+            keyhole_1_x = case_center_x - keyhole_spacing / 2;  // 100mm left of center
+            keyhole_2_x = case_center_x + keyhole_spacing / 2;  // 100mm right of center
+            keyhole_y = (pcb_top + pcb_bottom) / 2; // Centered on PCB height
+            keyhole_material_width = 25;  // Width of keyhole support material
+            keyhole_material_height = 40; // Height of keyhole support material (doubled)
+            
+            for (keyhole_x = [keyhole_1_x, keyhole_2_x]) {
+                translate([keyhole_x - keyhole_material_width/2, keyhole_y - keyhole_material_height/2, 0])
+                cube([keyhole_material_width, keyhole_material_height, case_thickness]);
+            }
             
         }
         
@@ -128,6 +187,19 @@ module complete_case() {
         translate([(pcb_left + pcb_right) / 2, (pcb_top + pcb_bottom) / 2, case_thickness - 0.4])
         linear_extrude(height = 0.4 + 0.1)  // 0.4mm depth + extra for clean cut
             text("digink", size = 6, halign = "center", valign = "center", font = "Liberation Mono");
+        
+        // Keyhole mounting holes exactly 200mm apart (5 × 4cm grid spacing)
+        keyhole_spacing = 200;  // Exact 4cm multiple
+        case_center_x = case_width / 2;  // Center of case
+        keyhole_1_x = case_center_x - keyhole_spacing / 2;  // 100mm left of center
+        keyhole_2_x = case_center_x + keyhole_spacing / 2;  // 100mm right of center
+        keyhole_y = (pcb_top + pcb_bottom) / 2; // Centered on PCB height
+        
+        for (keyhole_x = [keyhole_1_x, keyhole_2_x]) {
+            translate([keyhole_x, keyhole_y, 0]) {
+                keyhole_mount();
+            }
+        }
     }
 }
 
