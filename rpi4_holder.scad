@@ -81,10 +81,16 @@ module rpi4_holder() {
     // Total case length = RPi floor + keyhole tabs on sides
     total_case_length = rpi_floor_length + 2 * keyhole_tab_width;
     
+    // Define shared variables once at module level
+    rpi_floor_offset_x = (total_case_length - rpi_floor_length) / 2;
+    keyhole_1_x = keyhole_tab_width / 2;
+    keyhole_2_x = total_case_length - keyhole_tab_width / 2;
+    keyhole_y = rpi_floor_width / 2;
+    keyhole_tab_actual_height = keyhole_tab_height + 2 * 20; // keyhole height + 2cm above + 2cm below
+    
     difference() {
         union() {
             // 1. RPi support area (centered in total case length)
-            rpi_floor_offset_x = (total_case_length - rpi_floor_length) / 2;
             translate([rpi_floor_offset_x, 0, 0])
             cube([rpi_floor_length, rpi_floor_width, case_base_thickness]);
             
@@ -95,20 +101,15 @@ module rpi4_holder() {
             }
             
             // 3. Left keyhole tab (just keyhole + 2cm margins above/below)
-            keyhole_1_x = keyhole_tab_width / 2;
-            keyhole_y = rpi_floor_width / 2;
-            keyhole_tab_actual_height = keyhole_tab_height + 2 * 20; // keyhole height + 2cm above + 2cm below
             translate([keyhole_1_x - keyhole_tab_width/2, keyhole_y - keyhole_tab_actual_height/2, 0])
             cube([keyhole_tab_width, keyhole_tab_actual_height, case_base_thickness]);
             
             // 4. Right keyhole tab (just keyhole + 2cm margins above/below)
-            keyhole_2_x = total_case_length - keyhole_tab_width / 2;
             translate([keyhole_2_x - keyhole_tab_width/2, keyhole_y - keyhole_tab_actual_height/2, 0])
             cube([keyhole_tab_width, keyhole_tab_actual_height, case_base_thickness]);
         }
         
         // RPi mounting holes (M2.5 screws)
-        rpi_floor_offset_x = (total_case_length - rpi_floor_length) / 2;
         for (hole = mounting_holes) {
             translate([rpi_floor_offset_x + rpi_margin + hole[0], rpi_margin + hole[1], -1])
             cylinder(h = case_base_thickness + standoff_height + 2, d = 2.7, $fn = 20);
@@ -119,10 +120,6 @@ module rpi4_holder() {
         }
         
         // Keyhole mounting holes
-        keyhole_1_x = keyhole_tab_width / 2;
-        keyhole_2_x = total_case_length - keyhole_tab_width / 2;
-        keyhole_y = rpi_floor_width / 2;
-        
         for (keyhole_x = [keyhole_1_x, keyhole_2_x]) {
             translate([keyhole_x, keyhole_y, 0]) {
                 keyhole_mount();
@@ -130,7 +127,6 @@ module rpi4_holder() {
         }
         
         // Ventilation holes (only within RPi floor area)
-        rpi_floor_offset_x = (total_case_length - rpi_floor_length) / 2;
         vent_spacing = 8;
         for (x = [rpi_floor_offset_x + rpi_margin + 8 : vent_spacing : rpi_floor_offset_x + rpi_floor_length - rpi_margin - 8]) {
             for (y = [rpi_margin + 8 : vent_spacing : rpi_floor_width - rpi_margin - 8]) {
