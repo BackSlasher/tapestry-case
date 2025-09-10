@@ -19,33 +19,41 @@ keyhole_total_thickness = layer1_thickness + layer2_thickness + layer3_thickness
 
 module keyhole_mount() {
     // Keyhole opening from the back side (bottom) of the case
-    // Layer 1: Only wide opening at bottom (for pin head insertion)
-    translate([0, 0, -0.1]) {
-        // Wide circular opening only (no narrow slot)
-        translate([0, -wide_opening/2 + 5, 0])
-            cylinder(h = layer1_thickness + 0.1, d = wide_opening, $fn = 40);
-    }
+    // Note: we cut from the BOTTOM (negative Z), working upward through layers
     
-    // Layer 2: Full keyhole shape (wide opening + narrow slot)
-    translate([0, 0, layer1_thickness]) {
-        // Wide circular opening
+    // Layer 1: Keyhole shape cuts through both Layer 1 and Layer 2 (no ceiling)
+    translate([0, 0, -0.1]) {
+        // Wide circular opening at bottom
         translate([0, -wide_opening/2 + 5, 0])
-            cylinder(h = layer2_thickness + 0.1, d = wide_opening, $fn = 40);
+            cylinder(h = layer1_thickness + layer2_thickness + 0.2, d = wide_opening, $fn = 40);
         
         // Narrow slot extending upward
         translate([0, slot_length/2 + 5, 0])
-            cube([narrow_slot, slot_length, layer2_thickness + 0.1], center = true);
+            cube([narrow_slot, slot_length, layer1_thickness + layer2_thickness + 0.2], center = true);
         
         // Smooth transition between wide and narrow
         hull() {
             translate([0, -wide_opening/2 + 5, 0])
-                cylinder(h = layer2_thickness + 0.1, d = wide_opening, $fn = 40);
+                cylinder(h = layer1_thickness + layer2_thickness + 0.2, d = wide_opening, $fn = 40);
             translate([0, 5, 0])
-                cube([narrow_slot, 1, layer2_thickness + 0.1], center = true);
+                cube([narrow_slot, 1, layer1_thickness + layer2_thickness + 0.2], center = true);
         }
     }
     
-    // Layer 3: Solid material (no openings) - provides pin stop surface
+    // Layer 2: Full pin head width opening throughout entire keyhole area - MIDDLE layer
+    translate([0, 0, layer1_thickness - 0.1]) {
+        hull() {
+            // Bottom wide opening (matches Layer 1 position)
+            translate([0, -wide_opening/2 + 5, 0])
+                cylinder(h = layer2_thickness + 0.2, d = wide_opening, $fn = 40);
+            // Top of slot area (matches Layer 1 extent)  
+            translate([0, slot_length/2 + 5, 0])
+                cylinder(h = layer2_thickness + 0.2, d = wide_opening, $fn = 40);
+        }
+    }
+    
+    // Layer 3: NO CUTS - solid material remains (pin stop surface) - TOP layer
+    // This layer intentionally has no cuts to provide the pin stop surface
 }
 
 module complete_case() {
