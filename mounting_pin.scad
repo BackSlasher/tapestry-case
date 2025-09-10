@@ -3,7 +3,7 @@
 
 // Main pin parameters
 head_disk_diameter = 18;        // Main head disks
-head_disk_thickness = 3;        // Thickness of each disk
+head_disk_thickness = 2.5;      // Thickness of each disk (reduced by 0.5mm)
 connecting_pipe_length = 15;    // 1.5cm pipe between disks
 connecting_pipe_diameter = 8;   // 0.8cm pipe diameter
 
