@@ -78,13 +78,15 @@ module rpi4_holder() {
     keyhole_tab_width = 25;
     keyhole_tab_height = 30;
     
-    // Total case length = RPi floor + keyhole tabs on sides
-    total_case_length = rpi_floor_length + 2 * keyhole_tab_width;
+    // Position keyholes exactly 80mm apart, ensuring proper case coverage
+    // Total case length must accommodate 80mm keyhole spacing + tab widths
+    total_case_length = keyhole_spacing + keyhole_tab_width; // 80 + 25 = 105mm
+    case_center_x = total_case_length / 2;
+    keyhole_1_x = case_center_x - keyhole_spacing / 2; // 40mm left of center
+    keyhole_2_x = case_center_x + keyhole_spacing / 2; // 40mm right of center
     
     // Define shared variables once at module level
     rpi_floor_offset_x = (total_case_length - rpi_floor_length) / 2;
-    keyhole_1_x = keyhole_tab_width / 2;
-    keyhole_2_x = total_case_length - keyhole_tab_width / 2;
     keyhole_y = rpi_floor_width / 2;
     keyhole_tab_actual_height = keyhole_tab_height + 2 * 20; // keyhole height + 2cm above + 2cm below
     
