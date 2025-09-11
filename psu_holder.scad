@@ -18,10 +18,10 @@ bottom_arm_height = psu_short_height + 5;  // Height to grab short part (2.5cm +
 side_arm_height = psu_tall_height + 5;     // Height to grab tall part (3.5cm + 0.5cm) 
 ledge_depth = 4;   // How far the ledges extend inward to grab PSU
 ledge_thickness = 3;  // Thickness of the grabbing ledges
-clearance = 2;   // Extra space around PSU
+clearance = 5;   // Extra space around PSU for easier insertion
 
-holder_length = psu_length + 2 * clearance;  // 94mm
-holder_width = psu_width + 2 * clearance;    // 144mm
+holder_length = psu_length + 2 * clearance;  // 100mm
+holder_width = psu_width + 2 * clearance;    // 150mm
 
 // Keyhole parameters
 pin_head_diameter = 19;
