@@ -65,65 +65,70 @@ module keyhole_mount() {
 }
 
 module psu_holder() {
+    // Define arm parameters at module level
+    left_arm_height = 60;
+    left_arm_y = holder_width - left_arm_height;
+    right_arm_height = 60;
+    right_arm_y = holder_width - right_arm_height;
+    bottom_arm_length = 60;
+    
+    hub_size = 40;
+    case_center_x = holder_length / 2;
+    case_center_y = left_arm_y + left_arm_height/2;  // Position at intersection of tendrils
+    bottom_arm_x = case_center_x - bottom_arm_length/2;
+    
     difference() {
         union() {
-            // Base plate
-            translate([0, 0, 0])
-            cube([holder_length, holder_width, base_thickness]);
+            // Expanded central hub - covers entire floor between and including arms
+            expanded_hub_width = holder_length;  // Full width including arms
+            expanded_hub_height = left_arm_height;  // Matches arm height
+            translate([0, left_arm_y, 0])
+            cube([expanded_hub_width, expanded_hub_height, base_thickness]);
             
-            // Left arm - holds the thick part (high for 3.5cm section) 
-            translate([0, 0, base_thickness])
-            cube([arm_thickness, holder_width, side_arm_height]);
+            // Left arm (high for thick section) - positioned near top
+            translate([0, left_arm_y, base_thickness])
+            cube([arm_thickness, left_arm_height, side_arm_height]);
             
-            // Left arm ledge - extends inward to grab thick part
-            translate([arm_thickness, clearance, base_thickness + side_arm_height - ledge_thickness])
-            cube([ledge_depth, holder_width - 2 * clearance, ledge_thickness]);
+            // Left arm ledge
+            translate([arm_thickness, left_arm_y, base_thickness + side_arm_height - ledge_thickness])
+            cube([ledge_depth, left_arm_height, ledge_thickness]);
             
-            // Right arm - holds the thin part (short for 2.5cm section)
-            translate([holder_length - arm_thickness, 0, base_thickness])
-            cube([arm_thickness, holder_width, bottom_arm_height]);
+            // Right arm (short for thin section) - positioned near top
+            translate([holder_length - arm_thickness, right_arm_y, base_thickness])
+            cube([arm_thickness, right_arm_height, bottom_arm_height]);
             
-            // Right arm ledge - extends inward to grab thin part  
-            translate([holder_length - arm_thickness - ledge_depth, clearance, base_thickness + bottom_arm_height - ledge_thickness])
-            cube([ledge_depth, holder_width - 2 * clearance, ledge_thickness]);
+            // Right arm ledge
+            translate([holder_length - arm_thickness - ledge_depth, right_arm_y, base_thickness + bottom_arm_height - ledge_thickness])
+            cube([ledge_depth, right_arm_height, ledge_thickness]);
             
-            // Bottom left arm (left-leaning, high for thick section)
-            bottom_left_width = holder_length * 0.6; // 60% of length for thick section
-            translate([0, 0, base_thickness])
-            cube([bottom_left_width, arm_thickness, side_arm_height]);
+            // Bottom arm (centered) - extends to floor
+            translate([bottom_arm_x, 0, 0])
+            cube([bottom_arm_length, arm_thickness, base_thickness + side_arm_height]);
             
-            // Bottom left arm ledge
-            translate([clearance, arm_thickness, base_thickness + side_arm_height - ledge_thickness])
-            cube([bottom_left_width - 2 * clearance, ledge_depth, ledge_thickness]);
+            // Bottom arm ledge
+            translate([bottom_arm_x, arm_thickness, base_thickness + side_arm_height - ledge_thickness])
+            cube([bottom_arm_length, ledge_depth, ledge_thickness]);
             
-            // Bottom right arm (right-leaning, short for thin section)  
-            bottom_right_start = holder_length * 0.4; // Start at 40% for thin section
-            bottom_right_width = holder_length - bottom_right_start;
-            translate([bottom_right_start, 0, base_thickness])
-            cube([bottom_right_width, arm_thickness, bottom_arm_height]);
+            // Bottom tendril (from bottom arm to expanded hub)
+            tendril_width = 8;
+            translate([case_center_x - tendril_width/2, arm_thickness, 0])
+            cube([tendril_width, left_arm_y - arm_thickness, base_thickness]);
             
-            // Bottom right arm ledge
-            translate([bottom_right_start + clearance, arm_thickness, base_thickness + bottom_arm_height - ledge_thickness])
-            cube([bottom_right_width - 2 * clearance, ledge_depth, ledge_thickness]);
+            // Keyhole mounting material (next to left-right arms at top)
+            keyhole_y_pos = holder_width; // At the very top
+            keyhole_1_x = case_center_x - keyhole_spacing / 2;
+            keyhole_2_x = case_center_x + keyhole_spacing / 2;
             
-            // Keyhole mounting material (positioned in top area where there are no arms)
-            case_center_x = holder_length / 2;
-            keyhole_y_pos = holder_width; // At the top end (opposite from bottom arms)
-            keyhole_1_x = case_center_x - keyhole_spacing / 2;  // 40mm left of center
-            keyhole_2_x = case_center_x + keyhole_spacing / 2;  // 40mm right of center
-            
-            // First keyhole tab
+            // Left keyhole tab
             translate([keyhole_1_x - keyhole_material_width/2, keyhole_y_pos, 0])
             cube([keyhole_material_width, keyhole_material_height, base_thickness]);
             
-            // Second keyhole tab  
+            // Right keyhole tab  
             translate([keyhole_2_x - keyhole_material_width/2, keyhole_y_pos, 0])
             cube([keyhole_material_width, keyhole_material_height, base_thickness]);
         }
         
-        // PSU cavity (sunken area for PSU to sit in)
-        translate([clearance, clearance, base_thickness - 1])
-        cube([psu_length, psu_width, 2]); // 1mm sunken depth
+        // PSU cavity removed - not needed for this design
         
         // Keyhole mounting holes (in top area)
         case_center_x = holder_length / 2;
