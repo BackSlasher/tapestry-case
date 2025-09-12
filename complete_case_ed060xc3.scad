@@ -222,9 +222,10 @@ module complete_case_ed060xc3() {
         
         // Text removed
         
-        // Ribbon cable notch at top of PCB area  
-        // Starting 1.1cm from left edge to avoid screw hole interference
-        ribbon_notch_start_x = pcb_left + 11;  // 1.1cm from PCB left edge
+        // Ribbon cable notch positioned relative to e-ink screen
+        // Keep same absolute position as before but measure from screen edge
+        ribbon_notch_offset_from_screen = (pcb_left + 11) - screen_offset_x;  // Calculate offset from screen
+        ribbon_notch_start_x = screen_offset_x + ribbon_notch_offset_from_screen;
         ribbon_notch_width = 20;               // 2cm wide
         ribbon_notch_depth = 10;               // 1cm deep into the PCB material
         
