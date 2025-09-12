@@ -222,6 +222,16 @@ module complete_case_ed060xc3() {
         
         // Text removed
         
+        // Ribbon cable notch at top of PCB area  
+        // Starting 1.1cm from left edge to avoid screw hole interference
+        ribbon_notch_start_x = pcb_left + 11;  // 1.1cm from PCB left edge
+        ribbon_notch_width = 20;               // 2cm wide
+        ribbon_notch_depth = 10;               // 1cm deep into the PCB material
+        
+        // Create notch by cutting into the PCB mounting area from the top
+        translate([ribbon_notch_start_x, pcb_top - ribbon_notch_depth, -1])
+        cube([ribbon_notch_width, ribbon_notch_depth, case_thickness + 2]);
+        
         // Keyhole mounting holes exactly 120mm apart (3 × 4cm grid spacing)
         keyhole_spacing = 120;  // 3 × 4cm multiple
         case_center_x = case_width / 2;  // Center of case
