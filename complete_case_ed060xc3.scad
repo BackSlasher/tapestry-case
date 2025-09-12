@@ -64,7 +64,8 @@ module complete_case_ed060xc3() {
     
     // PCB positioned back-to-back with screen (positioned for ribbon routing)
     // Since ribbon is on top edge 0.5cm from right, position PCB accordingly
-    pcb_offset_x = screen_offset_x + eink_width - ribbon_offset_from_right - pcb_width / 2;
+    // Moved 4mm left to be closer to center
+    pcb_offset_x = screen_offset_x + eink_width - ribbon_offset_from_right - pcb_width / 2 - 4;
     pcb_offset_y = screen_offset_y + eink_height - pcb_height - 10; // 10mm from top edge
     
     // PCB mounting area bounds (defined once for use throughout)
@@ -223,8 +224,8 @@ module complete_case_ed060xc3() {
         // Text removed
         
         // Ribbon cable notch positioned relative to e-ink screen
-        // Keep same absolute position as before but measure from screen edge
-        ribbon_notch_offset_from_screen = (pcb_left + 11) - screen_offset_x;  // Calculate offset from screen
+        // Keep same absolute position as before but measure from screen edge, moved 4mm right
+        ribbon_notch_offset_from_screen = (pcb_left + 11) - screen_offset_x + 4;  // Calculate offset from screen, +4mm right
         ribbon_notch_start_x = screen_offset_x + ribbon_notch_offset_from_screen;
         ribbon_notch_width = 20;               // 2cm wide
         ribbon_notch_depth = 10;               // 1cm deep into the PCB material
