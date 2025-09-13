@@ -73,4 +73,4 @@ pcb_holder_width = max_hole_x - min_hole_x;
 pcb_holder_height = max_hole_y - min_hole_y;
 
 // Complete case parameters
-case_thickness = 8; // Total thickness for back-to-back mounting
+case_thickness = 4; // Total thickness for back-to-back mounting (reduced by half)

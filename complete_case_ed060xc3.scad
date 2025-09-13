@@ -4,6 +4,9 @@
 
 include <parameters_ed060xc3.scad>
 
+// Render control
+render_keyholes = false;  // Set to true to include keyholes in render
+
 // Keyhole parameters (from keyhole_test.scad with updated thicknesses)
 pin_head_diameter = 19;
 pin_shaft_diameter = 8;
@@ -150,28 +153,30 @@ module complete_case_ed060xc3() {
             // Ribbon fold guide removed
             
             // Keyhole material extensions (add material around keyhole areas)
-            // Position keyholes exactly 120mm apart (3 × 4cm grid spacing) for larger screen
-            keyhole_spacing = 120;  // 3 × 4cm multiple
-            case_center_x = case_width / 2;  // Center of case
-            keyhole_1_x = case_center_x;  // At center
-            keyhole_2_x = keyhole_1_x + 80;  // 80mm spacing (2 × 4cm multiple)
-            keyhole_y = pcb_bottom - 20; // Below the bottom screw holes line
-            keyhole_material_width = 25;  // Normal width for left keyhole
-            keyhole_material_height = 50; // Height of keyhole support material (added 1cm)
-            
-            // Calculate tendril coverage
-            tendril_width = 10;
-            bottom_arm_thickness = 4;
-            tendril_top_y = pcb_center_y + tendril_width/2;
-            
-            for (keyhole_x = [keyhole_1_x, keyhole_2_x]) {
-                // Extend keyhole material to cover the bottom tendril completely
-                keyhole_material_top_y = tendril_top_y;
-                keyhole_material_bottom_y = keyhole_y - 20; // Keep original bottom
-                extended_height = keyhole_material_top_y - keyhole_material_bottom_y;
+            if (render_keyholes) {
+                // Position keyholes exactly 120mm apart (3 × 4cm grid spacing) for larger screen
+                keyhole_spacing = 120;  // 3 × 4cm multiple
+                case_center_x = case_width / 2;  // Center of case
+                keyhole_1_x = case_center_x;  // At center
+                keyhole_2_x = keyhole_1_x + 80;  // 80mm spacing (2 × 4cm multiple)
+                keyhole_y = pcb_bottom - 20; // Below the bottom screw holes line
+                keyhole_material_width = 25;  // Normal width for left keyhole
+                keyhole_material_height = 50; // Height of keyhole support material (added 1cm)
                 
-                translate([keyhole_x - keyhole_material_width/2, keyhole_material_bottom_y, 0])
-                cube([keyhole_material_width, extended_height, case_thickness]);
+                // Calculate tendril coverage
+                tendril_width = 10;
+                bottom_arm_thickness = 4;
+                tendril_top_y = pcb_center_y + tendril_width/2;
+                
+                for (keyhole_x = [keyhole_1_x, keyhole_2_x]) {
+                    // Extend keyhole material to cover the bottom tendril completely
+                    keyhole_material_top_y = tendril_top_y;
+                    keyhole_material_bottom_y = keyhole_y - 20; // Keep original bottom
+                    extended_height = keyhole_material_top_y - keyhole_material_bottom_y;
+                    
+                    translate([keyhole_x - keyhole_material_width/2, keyhole_material_bottom_y, 0])
+                    cube([keyhole_material_width, extended_height, case_thickness]);
+                }
             }
             
         }
@@ -235,15 +240,17 @@ module complete_case_ed060xc3() {
         cube([ribbon_notch_width, ribbon_notch_depth, case_thickness + 2]);
         
         // Keyhole mounting holes exactly 120mm apart (3 × 4cm grid spacing)
-        keyhole_spacing = 120;  // 3 × 4cm multiple
-        case_center_x = case_width / 2;  // Center of case
-        keyhole_1_x = case_center_x;  // At center
-        keyhole_2_x = keyhole_1_x + 80;  // 80mm spacing (2 × 4cm multiple)
-        keyhole_y = pcb_bottom - 20; // Below the bottom screw holes line
-        
-        for (keyhole_x = [keyhole_1_x, keyhole_2_x]) {
-            translate([keyhole_x, keyhole_y, 0]) {
-                keyhole_mount();
+        if (render_keyholes) {
+            keyhole_spacing = 120;  // 3 × 4cm multiple
+            case_center_x = case_width / 2;  // Center of case
+            keyhole_1_x = case_center_x;  // At center
+            keyhole_2_x = keyhole_1_x + 80;  // 80mm spacing (2 × 4cm multiple)
+            keyhole_y = pcb_bottom - 20; // Below the bottom screw holes line
+            
+            for (keyhole_x = [keyhole_1_x, keyhole_2_x]) {
+                translate([keyhole_x, keyhole_y, 0]) {
+                    keyhole_mount();
+                }
             }
         }
     }
