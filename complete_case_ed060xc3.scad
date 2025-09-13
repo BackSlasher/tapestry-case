@@ -68,8 +68,8 @@ module complete_case_ed060xc3() {
     // PCB positioned back-to-back with screen (positioned for ribbon routing)
     // Since ribbon is on top edge 0.5cm from right, position PCB accordingly
     // Moved 4mm left to be closer to center
-    pcb_offset_x = screen_offset_x + eink_width - ribbon_offset_from_right - pcb_width / 2 - 4;
-    pcb_offset_y = screen_offset_y + eink_height - pcb_height - 10; // 10mm from top edge
+    pcb_offset_x = screen_offset_x + eink_width - ribbon_offset_from_right - pcb_width / 2 - 4 + 2;
+    pcb_offset_y = screen_offset_y + eink_height - pcb_height - 10 - 1.5; // 10mm from top edge, moved 1.5mm up
     
     // PCB mounting area bounds (defined once for use throughout)
     pcb_left = pcb_offset_x + min([for (hole = mounting_holes) hole[0]]) - 8;
