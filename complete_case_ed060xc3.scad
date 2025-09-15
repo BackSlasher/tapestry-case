@@ -5,7 +5,7 @@
 include <parameters_ed060xc3.scad>
 
 // Render control
-render_keyholes = false;  // Set to true to include keyholes in render
+render_keyholes = true;  // Set to true to include keyholes in render
 
 // Keyhole parameters (from keyhole_test.scad with updated thicknesses)
 pin_head_diameter = 19;
@@ -157,8 +157,8 @@ module complete_case_ed060xc3() {
                 // Position keyholes exactly 120mm apart (3 × 4cm grid spacing) for larger screen
                 keyhole_spacing = 120;  // 3 × 4cm multiple
                 case_center_x = case_width / 2;  // Center of case
-                keyhole_1_x = case_center_x;  // At center
-                keyhole_2_x = keyhole_1_x + 80;  // 80mm spacing (2 × 4cm multiple)
+                keyhole_1_x = screen_offset_x - 12.5;  // Left of screen area  
+                keyhole_2_x = keyhole_1_x + 160;  // 160mm spacing (4 × 4cm multiple)
                 keyhole_y = pcb_bottom - 20; // Below the bottom screw holes line
                 keyhole_material_width = 25;  // Normal width for left keyhole
                 keyhole_material_height = 50; // Height of keyhole support material (added 1cm)
@@ -243,8 +243,8 @@ module complete_case_ed060xc3() {
         if (render_keyholes) {
             keyhole_spacing = 120;  // 3 × 4cm multiple
             case_center_x = case_width / 2;  // Center of case
-            keyhole_1_x = case_center_x;  // At center
-            keyhole_2_x = keyhole_1_x + 80;  // 80mm spacing (2 × 4cm multiple)
+            keyhole_1_x = screen_offset_x - 12.5;  // Left of screen area
+            keyhole_2_x = keyhole_1_x + 160;  // 160mm spacing (4 × 4cm multiple)
             keyhole_y = pcb_bottom - 20; // Below the bottom screw holes line
             
             for (keyhole_x = [keyhole_1_x, keyhole_2_x]) {
