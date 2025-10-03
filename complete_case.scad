@@ -62,8 +62,8 @@ module complete_case() {
     screen_offset_y = (case_height - eink_height) / 2;
     
     // PCB positioned back-to-back with screen (positioned on left side, adjusted)
-    pcb_offset_x = screen_offset_x + 5;  // Move 5mm toward center (right), then 2mm right
-    pcb_offset_y = screen_offset_y + (eink_height - pcb_height) / 2 + 15 - 5 + 2 + 10;  // Move 5mm toward bottom + 2mm up - 1cm up for new screens
+    pcb_offset_x = screen_offset_x + 5;  // Move 5mm toward center (right)
+    pcb_offset_y = screen_offset_y + (eink_height - pcb_height) / 2 + 15 - 5 + 2;  // Move 5mm toward bottom + 2mm up
     
     // PCB mounting area bounds (defined once for use throughout)
     pcb_left = pcb_offset_x + min([for (hole = mounting_holes) hole[0]]) - 8;
@@ -123,7 +123,7 @@ module complete_case() {
             // Ribbon fold guide - extends 2.5cm from top of PCB, from middle-2cm to right edge, half thickness
             ribbon_guide_start_x = (pcb_left + pcb_right) / 2 - 20;  // PCB middle - 2cm (40mm/2)
             ribbon_guide_width = pcb_right - ribbon_guide_start_x;  // From start position to right edge
-            ribbon_guide_length = 15; // 1.5cm (reduced by 1cm since PCB moved up)
+            ribbon_guide_length = 25; // 2.5cm
             ribbon_guide_thickness = case_thickness / 2; // Half the case thickness
             
             translate([ribbon_guide_start_x, pcb_top, 0])
