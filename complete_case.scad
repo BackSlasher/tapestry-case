@@ -201,10 +201,7 @@ module complete_case() {
             }
         }
         
-        // "digink" text sunken into front face of case
-        translate([(pcb_left + pcb_right) / 2, (pcb_top + pcb_bottom) / 2, case_thickness - 0.4])
-        linear_extrude(height = 0.4 + 0.1)  // 0.4mm depth + extra for clean cut
-            text("digink", size = 6, halign = "center", valign = "center", font = "Liberation Mono");
+        // Text removed
         
         // Keyhole mounting holes exactly 200mm apart (5 × 4cm grid spacing)
         keyhole_spacing = 200;  // Exact 4cm multiple
