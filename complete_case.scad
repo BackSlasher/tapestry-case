@@ -162,6 +162,16 @@ module complete_case() {
         translate([case_width - arm_thickness, (pcb_top + pcb_bottom - mount_point_length) / 2,
                   case_thickness])
             cube([groove_depth, mount_point_length, groove_width]);
+
+        // Left outer groove - for horizontal case connections
+        translate([0, (pcb_top + pcb_bottom - mount_point_length) / 2,
+                  case_thickness])
+            cube([groove_depth, mount_point_length, groove_width]);
+
+        // Right outer groove - for horizontal case connections
+        translate([case_width - groove_depth, (pcb_top + pcb_bottom - mount_point_length) / 2,
+                  case_thickness])
+            cube([groove_depth, mount_point_length, groove_width]);
         
         // Bottom groove - in bottom mount point (positioned to match eink_holder screen depth)
         translate([(pcb_left + pcb_right - mount_point_length) / 2, bottom_arm_thickness - groove_depth,
