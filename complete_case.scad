@@ -177,6 +177,11 @@ module complete_case() {
         translate([(pcb_left + pcb_right - mount_point_length) / 2, bottom_arm_thickness - groove_depth,
                   case_thickness])
             cube([mount_point_length, groove_depth, groove_width]);
+
+        // Bottom outer groove - for vertical case connections (shallower to preserve material)
+        translate([(pcb_left + pcb_right - mount_point_length) / 2, 0,
+                  case_thickness])
+            cube([mount_point_length, 1, groove_width]);  // 1mm depth instead of 2mm
         
         // PCB mounting: pins or holes based on parameter
         if (use_temporary_pins) {
