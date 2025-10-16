@@ -114,28 +114,31 @@ module psu_holder() {
             translate([case_center_x - tendril_width/2, arm_thickness, 0])
             cube([tendril_width, left_arm_y - arm_thickness, base_thickness]);
             
-            // Keyhole mounting material (next to left-right arms at top)
-            keyhole_y_pos = holder_width; // At the very top
-            keyhole_1_x = case_center_x - keyhole_spacing / 2;
-            keyhole_2_x = case_center_x + keyhole_spacing / 2;
-            
-            // Left keyhole tab
-            translate([keyhole_1_x - keyhole_material_width/2, keyhole_y_pos, 0])
+            // Keyhole mounting material (on sides of left-right arms) - 120mm apart (3×4cm)
+            keyhole_spacing_target = 120;  // Must be 4cm multiple
+            case_center_x = holder_length / 2;
+            keyhole_1_x = case_center_x - keyhole_spacing_target/2 - keyhole_material_width/2;  // Left side
+            keyhole_2_x = case_center_x + keyhole_spacing_target/2 - keyhole_material_width/2;  // Right side
+            keyhole_y_pos = left_arm_y + left_arm_height/2 - keyhole_material_height/2; // Centered on arms
+
+            // Left keyhole tab (extending from left arm)
+            translate([keyhole_1_x, keyhole_y_pos, 0])
             cube([keyhole_material_width, keyhole_material_height, base_thickness]);
-            
-            // Right keyhole tab  
-            translate([keyhole_2_x - keyhole_material_width/2, keyhole_y_pos, 0])
+
+            // Right keyhole tab (extending from right arm)
+            translate([keyhole_2_x, keyhole_y_pos, 0])
             cube([keyhole_material_width, keyhole_material_height, base_thickness]);
         }
         
         // PSU cavity removed - not needed for this design
         
-        // Keyhole mounting holes (in top area)
+        // Keyhole mounting holes (on sides of left-right arms) - 120mm apart (3×4cm)
+        keyhole_spacing_target = 120;  // Must be 4cm multiple
         case_center_x = holder_length / 2;
-        keyhole_y_center = holder_width + keyhole_material_height / 2; // Center of keyhole tabs
-        keyhole_1_x = case_center_x - keyhole_spacing / 2;
-        keyhole_2_x = case_center_x + keyhole_spacing / 2;
-        
+        keyhole_1_x = case_center_x - keyhole_spacing_target/2;  // Center of left keyhole
+        keyhole_2_x = case_center_x + keyhole_spacing_target/2;  // Center of right keyhole
+        keyhole_y_center = left_arm_y + left_arm_height/2; // Center of arms
+
         for (keyhole_x = [keyhole_1_x, keyhole_2_x]) {
             translate([keyhole_x, keyhole_y_center, 0]) {
                 keyhole_mount();
